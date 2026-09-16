@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Profil - FoodGo</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-family: Arial, Helvetica, sans-serif; 
+		}
+
+		:root {
+			--orange: #ff6333;
+			--orange-light: #fff0e9;
+			--text: #292929;
+			--gray: #777;
+			--bg: #f7f7f7;
+			--red: #dc3545;
+		}
+
+		body {
+			min-height: 100vh;
+			background: var(--bg);
+			color: var(--text);
+		}
+
+		.header {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+			height: 68px;
+			padding: 0 20px;
+			background: white;
+			border-bottom: 1px solid #eee;
+		}
+
+		.back {
+			display: grid;
+			width: 40px;
+			height: 40px;
+			place-items: center;
+			border-radius: 50%;
+			background: var(--orange-light);
+			color: var(--orange);
+			font-size: 22px;
+			text-decoration: none;
+		}
+
+		.header h1 {
+			font-size: 20px;
+		}
+
+		main {
+			width: min(100% - 32px, 520px);
+			margin: 28px auto;
+		}
+
+		.profile-card {
+			padding: 28px 22px;
+			background: white;
+			border-radius: 18px;
+			box-shadow: 0 5px 18px rgba(0, 0, 0, .06);
+			text-align: center;
+		}
+
+		.avatar {
+			display: grid;
+			width: 86px;
+			height: 86px;
+			margin: 0 auto 16px;
+			place-items: center;
+			border-radius: 50%;
+			background: var(--orange-light);
+			font-size: 42px;
+		}
+
+		.profile-card h2 {
+			margin-bottom: 7px;
+			font-size: 24px;
+		}
+
+		.profile-card p {
+			color: var(--gray);
+		}
+
+		.actions {
+			display: grid;
+			gap: 12px;
+			margin-top: 24px;
+		}
+
+		.action {
+			display: block;
+			width: 100%;
+			padding: 14px 18px;
+			border: 0;
+			border-radius: 10px;
+			font-size: 15px;
+			font-weight: bold;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		.home {
+			background: var(--orange);
+			color: white;
+		}
+
+		.logout {
+			background: #fff0f1;
+			color: var(--red);
+		}
+	</style>
+</head>
+<body>
+	<header class="header">
+		<a class="back" href="makanan.html" aria-label="Kembali ke beranda">&#8592;</a>
+		<h1>Profil Akun</h1>
+	</header>
+
+	<main>
+		<section class="profile-card">
+			<div class="avatar">&#128100;</div>
+			<h2 id="namaPengguna">Pengguna FoodGo</h2>
+			<p>Akun FoodGo kamu</p>
+
+			<div class="actions">
+				<a class="action home" href="makanan.html">&#127968; Kembali ke Beranda</a>
+				<button class="action logout" type="button" onclick="logout()">&#128682; Logout Akun</button>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const namaPengguna = localStorage.getItem("namaPengguna");
+
+		if (!namaPengguna) {
+			window.location.href = "login.html";
+		} else {
+			document.getElementById("namaPengguna").innerText = namaPengguna;
+		}
+
+		function logout() {
+			localStorage.removeItem("namaPengguna");
+			window.location.href = "login.html";
+		}
+	</script>
+</body>
+</html>

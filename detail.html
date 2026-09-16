@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detail Makanan - FoodGo</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --orange: #ff6333;
+            --orange-dark: #f45124;
+            --orange-light: #fff0e9;
+            --text: #292929;
+            --gray: #888;
+            --bg: #f8f8f8;
+            --white: #fff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 30px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 20px;
+
+            background: rgba(255,255,255,.96);
+
+            border-bottom: 1px solid #eee;
+
+            box-shadow:
+                0 3px 15px rgba(0,0,0,.06);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f5f5f5;
+
+            border-radius: 50%;
+
+            color: #333;
+
+            text-decoration: none;
+
+            font-size: 23px;
+
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .logo {
+            color: var(--orange);
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .header-cart {
+            position: relative;
+
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--orange-light);
+
+            border-radius: 50%;
+
+            text-decoration: none;
+
+            font-size: 19px;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+
+            margin: auto;
+
+            padding: 20px;
+        }
+
+        /* ================= IMAGE ================= */
+
+        .food-image {
+            position: relative;
+
+            width: 100%;
+            height: 290px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 22px;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #fff8f4,
+                    #ffe0d2
+                );
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,.07);
+        }
+
+        .food-emoji {
+            font-size: 125px;
+
+            filter:
+                drop-shadow(0 15px 10px rgba(0,0,0,.12));
+
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-7px);
+            }
+
+        }
+
+        .discount {
+            position: absolute;
+
+            top: 15px;
+            left: 15px;
+
+            padding: 7px 10px;
+
+            background: #ff4d4d;
+
+            color: white;
+
+            border-radius: 9px;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .favorite-btn {
+            position: absolute;
+
+            top: 13px;
+            right: 13px;
+
+            width: 43px;
+            height: 43px;
+
+            border: none;
+
+            background: rgba(255,255,255,.95);
+
+            border-radius: 50%;
+
+            font-size: 21px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,.08);
+
+            transition: .2s;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .favorite-btn.active {
+            color: #ff4d4d;
+        }
+
+        /* ================= FOOD INFO ================= */
+
+        .food-name {
+            font-size: 29px;
+
+            margin-bottom: 8px;
+
+            letter-spacing: -.5px;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 13px;
+        }
+
+        .rating {
+            color: #f3a51d;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .review {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        .price {
+            color: var(--orange);
+
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .old-price {
+            color: #aaa;
+
+            font-size: 13px;
+
+            text-decoration: line-through;
+        }
+
+        .description {
+            color: #777;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            margin-bottom: 23px;
+        }
+
+        /* ================= INFO BOX ================= */
+
+        .info-row {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 9px;
+
+            margin-bottom: 27px;
+        }
+
+        .info-box {
+            padding: 12px 7px;
+
+            background: white;
+
+            border-radius: 13px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,.04);
+        }
+
+        .info-box .icon {
+            font-size: 20px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-box p {
+            color: #777;
+
+            font-size: 10px;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 17px;
+
+            margin-bottom: 12px;
+        }
+
+        /* ================= QUANTITY ================= */
+
+        .quantity-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 14px 16px;
+
+            background: white;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,.04);
+        }
+
+        .quantity-label {
+            color: #666;
+
+            font-size: 13px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .quantity button {
+            width: 37px;
+            height: 37px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: var(--orange-light);
+
+            color: var(--orange);
+
+            font-size: 21px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .quantity button:hover {
+            background: var(--orange);
+            color: white;
+        }
+
+        .quantity span {
+            min-width: 22px;
+
+            text-align: center;
+
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        /* ================= SPICY ================= */
+
+        .spicy-options {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .spicy-option {
+            padding: 10px 14px;
+
+            background: white;
+
+            border: 1.5px solid #e8e8e8;
+
+            border-radius: 10px;
+
+            color: #666;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .spicy-option.active {
+            border-color: var(--orange);
+
+            background: var(--orange-light);
+
+            color: var(--orange);
+
+            font-weight: bold;
+        }
+
+        /* ================= NOTE ================= */
+
+        textarea {
+            width: 100%;
+
+            height: 90px;
+
+            padding: 13px;
+
+            border: 1.5px solid #e5e5e5;
+
+            border-radius: 13px;
+
+            background: white;
+
+            color: #333;
+
+            outline: none;
+
+            resize: none;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            transition: .2s;
+        }
+
+        textarea:focus {
+            border-color: var(--orange);
+
+            box-shadow:
+                0 0 0 4px rgba(255,99,51,.08);
+        }
+
+        /* ================= TOTAL ================= */
+
+        .total-box {
+            position: sticky;
+
+            bottom: 10px;
+
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 15px;
+
+            margin-top: 5px;
+
+            background: rgba(255,255,255,.96);
+
+            border: 1px solid #eee;
+
+            border-radius: 17px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.10);
+        }
+
+        .total-label {
+            color: #888;
+
+            font-size: 11px;
+
+            margin-bottom: 4px;
+        }
+
+        .total-price {
+            color: var(--orange);
+
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .cart-btn {
+            flex: 1;
+
+            padding: 14px 16px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7947,
+                    #ff572d
+                );
+
+            color: white;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 18px rgba(255,91,45,.25);
+
+            transition: .2s;
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 22px rgba(255,91,45,.32);
+        }
+
+        .cart-btn:active {
+            transform: scale(.98);
+        }
+
+        /* ================= NOTIFICATION ================= */
+
+        .notification {
+            position: fixed;
+
+            top: 20px;
+            left: 50%;
+
+            transform:
+                translate(-50%, -20px);
+
+            z-index: 100;
+
+            min-width: 270px;
+
+            padding: 13px 18px;
+
+            background: #222;
+
+            color: white;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition: .3s;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.2);
+        }
+
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 430px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .food-image {
+                height: 245px;
+            }
+
+            .food-emoji {
+                font-size: 105px;
+            }
+
+            .food-name {
+                font-size: 25px;
+            }
+
+            .total-box {
+                bottom: 8px;
+            }
+
+            .cart-btn {
+                padding: 13px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NOTIFICATION -->
+
+    <div
+        class="notification"
+        id="notification"
+    >
+        ✅ Makanan berhasil ditambahkan!
+    </div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <a
+                href="makanan.html"
+                class="back-btn"
+            >
+                ←
+            </a>
+
+            <div class="logo">
+                🍴 FoodGo
+            </div>
+
+        </div>
+
+        <a
+            href="keranjang.html"
+            class="header-cart"
+        >
+            🛒
+        </a>
+
+    </header>
+
+
+    <main class="container">
+
+
+        <!-- FOOD IMAGE -->
+
+        <div class="food-image">
+
+            <span class="discount">
+                🔥 PROMO 15%
+            </span>
+
+            <button
+                class="favorite-btn"
+                id="favoriteBtn"
+                onclick="toggleFavorite()"
+            >
+                ♡
+            </button>
+
+            <div class="food-emoji">
+                🍜
+            </div>
+
+        </div>
+
+
+        <!-- FOOD NAME -->
+
+        <h1 class="food-name">
+            Mie Ayam Spesial
+        </h1>
+
+
+        <!-- RATING -->
+
+        <div class="rating-row">
+
+            <div class="rating">
+                ⭐ 4.9
+            </div>
+
+            <div class="review">
+                120+ ulasan
+            </div>
+
+        </div>
+
+
+        <!-- PRICE -->
+
+        <div class="price-row">
+
+            <div class="price">
+                Rp10.000
+            </div>
+
+            <div class="old-price">
+                Rp12.000
+            </div>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <p class="description">
+            Mie ayam spesial dengan mie yang lembut,
+            potongan ayam gurih, sayuran segar,
+            dan kuah kaldu yang lezat. Cocok untuk
+            makan siang maupun makan malam. 🍜
+        </p>
+
+
+        <!-- INFO -->
+
+        <div class="info-row">
+
+            <div class="info-box">
+
+                <div class="icon">
+                    ⭐
+                </div>
+
+                <p>
+                    Rating 4.9
+                </p>
+
+            </div>
+
+            <div class="info-box">
+
+                <div class="icon">
+                    🔥
+                </div>
+
+                <p>
+                    Terlaris
+                </p>
+
+            </div>
+
+            <div class="info-box">
+
+                <div class="icon">
+                    🕐
+                </div>
+
+                <p>
+                    15-20 Menit
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUANTITY -->
+
+        <div class="section">
+
+            <h3 class="section-title">
+                Jumlah Pesanan
+            </h3>
+
+            <div class="quantity-box">
+
+                <span class="quantity-label">
+                    Berapa banyak?
+                </span>
+
+                <div class="quantity">
+
+                    <button onclick="kurang()">
+                        −
+                    </button>
+
+                    <span id="jumlah">
+                        1
+                    </span>
+
+                    <button onclick="tambah()">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SPICY -->
+
+        <div class="section">
+
+            <h3 class="section-title">
+                Level Pedas 🌶️
+            </h3>
+
+            <div class="spicy-options">
+
+                <button
+                    class="spicy-option active"
+                    onclick="pilihPedas(this)"
+                >
+                    Tidak Pedas
+                </button>
+
+                <button
+                    class="spicy-option"
+                    onclick="pilihPedas(this)"
+                >
+                    🌶️ Sedang
+                </button>
+
+                <button
+                    class="spicy-option"
+                    onclick="pilihPedas(this)"
+                >
+                    🌶️🌶️ Pedas
+                </button>
+
+                <button
+                    class="spicy-option"
+                    onclick="pilihPedas(this)"
+                >
+                    🌶️🌶️🌶️ Extra Pedas
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTE -->
+
+        <div class="section">
+
+            <h3 class="section-title">
+                Catatan Pesanan 📝
+            </h3>
+
+            <textarea
+                id="catatan"
+                placeholder="Contoh: tanpa sayur, kuah dipisah, dll..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- TOTAL -->
+
+        <div class="total-box">
+
+            <div>
+
+                <p class="total-label">
+                    Total Harga
+                </p>
+
+                <p
+                    class="total-price"
+                    id="total"
+                >
+                    Rp10.000
+                </p>
+
+            </div>
+
+            <button
+                class="cart-btn"
+                onclick="tambahKeranjang()"
+            >
+                🛒 Tambahkan
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        /* ================= DATA ================= */
+
+        const harga = 10000;
+
+        let jumlah = 1;
+
+        let levelPedas = "Tidak Pedas";
+
+
+        /* ================= QUANTITY ================= */
+
+        function tambah() {
+
+            jumlah++;
+
+            document.getElementById("jumlah")
+                .innerText = jumlah;
+
+            updateTotal();
+        }
+
+
+        function kurang() {
+
+            if (jumlah > 1) {
+
+                jumlah--;
+
+                document.getElementById("jumlah")
+                    .innerText = jumlah;
+
+                updateTotal();
+            }
+        }
+
+
+        /* ================= TOTAL ================= */
+
+        function updateTotal() {
+
+            const totalHarga =
+                harga * jumlah;
+
+            document.getElementById("total")
+                .innerText =
+                "Rp" +
+                totalHarga.toLocaleString("id-ID");
+        }
+
+
+        /* ================= FAVORITE ================= */
+
+        function toggleFavorite() {
+
+            const button =
+                document.getElementById(
+                    "favoriteBtn"
+                );
+
+            button.classList.toggle("active");
+
+            if (
+                button.classList.contains("active")
+            ) {
+
+                button.innerText = "♥";
+
+            } else {
+
+                button.innerText = "♡";
+            }
+        }
+
+
+        /* ================= SPICY ================= */
+
+        function pilihPedas(button) {
+
+            document
+                .querySelectorAll(".spicy-option")
+                .forEach(item => {
+                    item.classList.remove("active");
+                });
+
+            button.classList.add("active");
+
+            levelPedas =
+                button.innerText.trim();
+        }
+
+
+        /* ================= ADD CART ================= */
+
+        function tambahKeranjang() {
+
+            const catatan =
+                document
+                    .getElementById("catatan")
+                    .value
+                    .trim();
+
+
+            const dataPesanan = {
+
+                nama: "Mie Ayam Spesial",
+
+                harga: harga,
+
+                jumlah: jumlah,
+
+                levelPedas: levelPedas,
+
+                catatan: catatan,
+
+                total: harga * jumlah
+
+            };
+
+
+            /*
+             * Simpan pesanan utama.
+             * Keranjang.html dapat membaca
+             * data ini menggunakan localStorage.
+             */
+
+            localStorage.setItem(
+                "pesanan",
+                JSON.stringify(dataPesanan)
+            );
+
+
+            /* Simpan jumlah keranjang */
+
+            const jumlahLama =
+                Number(
+                    localStorage.getItem(
+                        "foodgo_cart_count"
+                    )
+                ) || 0;
+
+
+            localStorage.setItem(
+                "foodgo_cart_count",
+                jumlahLama + jumlah
+            );
+
+
+            /* Tampilkan notifikasi */
+
+            const notification =
+                document.getElementById(
+                    "notification"
+                );
+
+            notification.classList.add("show");
+
+
+            setTimeout(function() {
+
+                notification.classList.remove(
+                    "show"
+                );
+
+            }, 1000);
+
+
+            /* Pindah ke keranjang */
+
+            setTimeout(function() {
+
+                window.location.href =
+                    "keranjang.html";
+
+            }, 1200);
+
+        }
+
+    </script>
+
+</body>
+</html>

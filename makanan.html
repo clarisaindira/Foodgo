@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FoodGo - Beranda</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --orange: #ff6333;
+            --orange-dark: #f45124;
+            --orange-light: #fff0e9;
+            --text: #292929;
+            --gray: #888;
+            --bg: #f8f8f8;
+            --white: #ffffff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 90px;
+        }
+
+        /* HEADER */
+        .header {
+            background:
+                radial-gradient(
+                    circle at 100% 0%,
+                    rgba(255,255,255,.18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #ff7d49,
+                    #ff572d
+                );
+
+            color: white;
+            padding: 22px 20px 30px;
+            border-radius: 0 0 30px 30px;
+
+            box-shadow:
+                0 10px 30px rgba(255, 91, 45, .18);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .profile-btn {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,.18);
+            border: 1px solid rgba(255,255,255,.25);
+
+            border-radius: 50%;
+
+            color: white;
+            text-decoration: none;
+
+            font-size: 21px;
+        }
+
+        .greeting {
+            font-size: 13px;
+            opacity: .9;
+            margin-bottom: 6px;
+        }
+
+        .header h2 {
+            font-size: 23px;
+            line-height: 1.25;
+        }
+
+        /* SEARCH */
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            background: white;
+
+            margin-top: 20px;
+            padding: 13px 15px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 7px 20px rgba(100, 40, 20, .12);
+        }
+
+        .search-icon {
+            font-size: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            border: none;
+            outline: none;
+
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 650px;
+
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* PROMO */
+        .promo {
+            position: relative;
+            overflow: hidden;
+
+            min-height: 145px;
+
+            margin-bottom: 28px;
+            padding: 20px;
+
+            display: flex;
+            align-items: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff6435,
+                    #ff8a45
+                );
+
+            color: white;
+
+            box-shadow:
+                0 10px 25px rgba(255, 99, 51, .18);
+        }
+
+        .promo::after {
+            content: "🍔";
+
+            position: absolute;
+
+            right: 15px;
+            bottom: -12px;
+
+            font-size: 90px;
+
+            transform: rotate(-10deg);
+        }
+
+        .promo-text {
+            position: relative;
+            z-index: 2;
+            max-width: 65%;
+        }
+
+        .promo-small {
+            font-size: 12px;
+            opacity: .9;
+            margin-bottom: 6px;
+        }
+
+        .promo h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .promo p {
+            font-size: 12px;
+            opacity: .9;
+            margin-bottom: 12px;
+        }
+
+        .promo-btn {
+            display: inline-block;
+
+            padding: 8px 13px;
+
+            background: white;
+            color: var(--orange);
+
+            border-radius: 9px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        /* SECTION */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+        .section-title h3 {
+            font-size: 18px;
+        }
+
+        .section-title a {
+            color: var(--orange);
+
+            font-size: 12px;
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+        /* CATEGORY */
+        .categories {
+            display: flex;
+            gap: 11px;
+
+            overflow-x: auto;
+
+            padding-bottom: 7px;
+            margin-bottom: 27px;
+
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category {
+            min-width: 82px;
+
+            padding: 12px 8px;
+
+            background: white;
+
+            border: 1.5px solid transparent;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,.05);
+
+            transition: .2s;
+        }
+
+        .category:hover {
+            transform: translateY(-2px);
+        }
+
+        .category.active {
+            color: white;
+            background: var(--orange);
+            border-color: var(--orange);
+        }
+
+        .category .icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 7px;
+
+            background: var(--orange-light);
+
+            border-radius: 12px;
+
+            font-size: 23px;
+        }
+
+        .category.active .icon {
+            background: rgba(255,255,255,.2);
+        }
+
+        .category p {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* FOOD */
+        .food-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+        .food-card {
+            position: relative;
+            overflow: hidden;
+
+            background: white;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 5px 16px rgba(0,0,0,.06);
+
+            transition: .25s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .food-image {
+            position: relative;
+
+            height: 135px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0e8,
+                    #ffe0d2
+                );
+
+            font-size: 62px;
+        }
+
+        .discount {
+            position: absolute;
+
+            top: 9px;
+            left: 9px;
+
+            padding: 5px 7px;
+
+            color: white;
+            background: #ff4d4d;
+
+            border-radius: 7px;
+
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .favorite {
+            position: absolute;
+
+            top: 8px;
+            right: 8px;
+
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+
+            background: rgba(255,255,255,.92);
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            color: #777;
+
+            z-index: 5;
+        }
+
+        .favorite.active {
+            color: #ff3b5c;
+        }
+
+        .food-info {
+            padding: 12px;
+        }
+
+        .food-info h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            color: #f5a623;
+            font-size: 11px;
+            margin-bottom: 7px;
+        }
+
+        .rating span {
+            color: #999;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: var(--orange);
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .old-price {
+            color: #aaa;
+
+            font-size: 10px;
+
+            text-decoration: line-through;
+        }
+
+        .order-btn {
+            width: 100%;
+
+            padding: 9px;
+
+            display: block;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: var(--orange);
+
+            color: white;
+
+            text-align: center;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .order-btn:hover {
+            background: var(--orange-dark);
+        }
+
+        /* EMPTY */
+        .empty {
+            display: none;
+
+            padding: 40px 10px;
+
+            text-align: center;
+
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            margin-top: 7px;
+        }
+
+        /* CART */
+        .cart-float {
+            position: fixed;
+
+            right: 20px;
+            bottom: 85px;
+
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--orange);
+
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 23px;
+
+            text-decoration: none;
+
+            box-shadow:
+                0 8px 25px rgba(255, 99, 51, .35);
+
+            z-index: 20;
+        }
+
+        .cart-count {
+            position: absolute;
+
+            top: -3px;
+            right: -2px;
+
+            min-width: 19px;
+            height: 19px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0 5px;
+
+            background: #222;
+            color: white;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* NAV */
+        .bottom-nav {
+            position: fixed;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            background: rgba(255,255,255,.97);
+
+            border-top: 1px solid #eee;
+
+            box-shadow:
+                0 -5px 20px rgba(0,0,0,.07);
+
+            z-index: 30;
+        }
+
+        .nav-item {
+            position: relative;
+
+            min-width: 70px;
+
+            color: #999;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-size: 10px;
+        }
+
+        .nav-item span {
+            display: block;
+
+            font-size: 21px;
+
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: var(--orange);
+            font-weight: bold;
+        }
+
+        .nav-badge {
+            position: absolute;
+
+            top: -4px;
+            right: 17px;
+
+            min-width: 17px;
+            height: 17px;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #ff4d4d;
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 9px;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+
+            left: 50%;
+            bottom: 90px;
+
+            transform:
+                translate(-50%, 20px);
+
+            background: #222;
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: .3s;
+
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 390px) {
+
+            .container {
+                padding: 17px;
+            }
+
+            .header {
+                padding-left: 17px;
+                padding-right: 17px;
+            }
+
+            .food-list {
+                gap: 11px;
+            }
+
+            .food-image {
+                height: 115px;
+                font-size: 54px;
+            }
+
+            .food-info {
+                padding: 10px;
+            }
+
+            .promo h3 {
+                font-size: 19px;
+            }
+        }
+
+        @media (min-width: 700px) {
+
+            .food-list {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-top">
+
+            <div class="logo">
+                🍴 FoodGo
+            </div>
+
+            <a href="profil.html" class="profile-btn">
+                👤
+            </a>
+
+        </div>
+
+        <p class="greeting">
+            Halo, Food Lover! 👋
+        </p>
+
+        <h2>
+            Mau makan apa<br>
+            hari ini?
+        </h2>
+
+        <div class="search-box">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari nasi, ayam, mie..."
+                onkeyup="searchFood()"
+            >
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- PROMO -->
+
+        <div class="promo">
+
+            <div class="promo-text">
+
+                <div class="promo-small">
+                    🔥 PROMO HARI INI
+                </div>
+
+                <h3>
+                    Diskon sampai 30%!
+                </h3>
+
+                <p>
+                    Nikmati makanan favoritmu
+                    dengan harga lebih hemat.
+                </p>
+
+                <a href="#menu" class="promo-btn">
+                    Lihat Menu →
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="section-title">
+
+            <h3>
+                Kategori
+            </h3>
+
+            <a
+                href="#"
+                onclick="showAll(event)"
+            >
+                Lihat Semua
+            </a>
+
+        </div>
+
+
+        <div class="categories">
+
+            <div
+                class="category active"
+                onclick="filterCategory('all', this)"
+            >
+                <div class="icon">🍽️</div>
+                <p>Semua</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('mie', this)"
+            >
+                <div class="icon">🍜</div>
+                <p>Mie</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('nasi', this)"
+            >
+                <div class="icon">🍚</div>
+                <p>Nasi</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('ayam', this)"
+            >
+                <div class="icon">🍗</div>
+                <p>Ayam</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('burger', this)"
+            >
+                <div class="icon">🍔</div>
+                <p>Burger</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('pizza', this)"
+            >
+                <div class="icon">🍕</div>
+                <p>Pizza</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('minuman', this)"
+            >
+                <div class="icon">🥤</div>
+                <p>Minuman</p>
+            </div>
+
+            <div
+                class="category"
+                onclick="filterCategory('dessert', this)"
+            >
+                <div class="icon">🍰</div>
+                <p>Dessert</p>
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <div
+            class="section-title"
+            id="menu"
+        >
+
+            <h3>
+                Menu Pilihan 🍴
+            </h3>
+
+            <a
+                href="#"
+                onclick="showAll(event)"
+            >
+                Lihat Semua
+            </a>
+
+        </div>
+
+
+        <div
+            class="food-list"
+            id="foodList"
+        >
+
+            <!-- MIE AYAM -->
+
+            <div
+                class="food-card"
+                data-name="mie ayam"
+                data-category="mie"
+            >
+
+                <div class="food-image">
+
+                    <span class="discount">
+                        -15%
+                    </span>
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍜
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Mie Ayam Spesial
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.9
+                        <span>(120)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp10.000
+                        </span>
+
+                        <span class="old-price">
+                            Rp12.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Mie Ayam Spesial')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- AYAM GEPREK -->
+
+            <div
+                class="food-card"
+                data-name="ayam geprek"
+                data-category="ayam"
+            >
+
+                <div class="food-image">
+
+                    <span class="discount">
+                        -20%
+                    </span>
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍗
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Ayam Geprek
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.8
+                        <span>(98)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp12.000
+                        </span>
+
+                        <span class="old-price">
+                            Rp15.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Ayam Geprek')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- NASI GORENG -->
+
+            <div
+                class="food-card"
+                data-name="nasi goreng"
+                data-category="nasi"
+            >
+
+                <div class="food-image">
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍳
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Nasi Goreng Spesial
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.8
+                        <span>(87)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp13.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Nasi Goreng Spesial')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BURGER -->
+
+            <div
+                class="food-card"
+                data-name="burger"
+                data-category="burger"
+            >
+
+                <div class="food-image">
+
+                    <span class="discount">
+                        -25%
+                    </span>
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍔
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Beef Cheese Burger
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.9
+                        <span>(156)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp18.000
+                        </span>
+
+                        <span class="old-price">
+                            Rp24.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Beef Cheese Burger')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- PIZZA -->
+
+            <div
+                class="food-card"
+                data-name="pizza"
+                data-category="pizza"
+            >
+
+                <div class="food-image">
+
+                    <span class="discount">
+                        -10%
+                    </span>
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍕
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Pizza Cheese
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.7
+                        <span>(76)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp22.000
+                        </span>
+
+                        <span class="old-price">
+                            Rp25.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Pizza Cheese')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- KENTANG -->
+
+            <div
+                class="food-card"
+                data-name="kentang goreng"
+                data-category="snack"
+            >
+
+                <div class="food-image">
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍟
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Kentang Goreng
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.6
+                        <span>(63)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp9.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Kentang Goreng')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ES TEH -->
+
+            <div
+                class="food-card"
+                data-name="es teh"
+                data-category="minuman"
+            >
+
+                <div class="food-image">
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🥤
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Es Teh Manis
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.8
+                        <span>(201)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp5.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Es Teh Manis')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOBA -->
+
+            <div
+                class="food-card"
+                data-name="boba"
+                data-category="minuman"
+            >
+
+                <div class="food-image">
+
+                    <span class="discount">
+                        -15%
+                    </span>
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🧋
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Brown Sugar Boba
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.9
+                        <span>(134)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp15.000
+                        </span>
+
+                        <span class="old-price">
+                            Rp18.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Brown Sugar Boba')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CAKE -->
+
+            <div
+                class="food-card"
+                data-name="cake"
+                data-category="dessert"
+            >
+
+                <div class="food-image">
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍰
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Chocolate Cake
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.8
+                        <span>(54)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp14.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Chocolate Cake')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- NASI AYAM -->
+
+            <div
+                class="food-card"
+                data-name="nasi ayam"
+                data-category="nasi"
+            >
+
+                <div class="food-image">
+
+                    <span class="discount">
+                        -10%
+                    </span>
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍗
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Nasi Ayam Bakar
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.9
+                        <span>(110)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp16.000
+                        </span>
+
+                        <span class="old-price">
+                            Rp18.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Nasi Ayam Bakar')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MIE GORENG -->
+
+            <div
+                class="food-card"
+                data-name="mie goreng"
+                data-category="mie"
+            >
+
+                <div class="food-image">
+
+                    <button
+                        class="favorite"
+                        onclick="favorite(this, event)"
+                    >
+                        ♡
+                    </button>
+
+                    🍝
+
+                </div>
+
+                <div class="food-info">
+
+                    <h4>
+                        Mie Goreng Jawa
+                    </h4>
+
+                    <div class="rating">
+                        ⭐ 4.7
+                        <span>(92)</span>
+                    </div>
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rp11.000
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="order-btn"
+                        onclick="addCart('Mie Goreng Jawa')"
+                    >
+                        + Pesan
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="empty"
+            id="empty"
+        >
+
+            <div
+                class="empty-icon"
+                id="emptyIcon"
+            >
+                😢
+            </div>
+
+            <h3 id="emptyTitle">
+                Menu tidak ditemukan
+            </h3>
+
+            <p id="emptyText">
+                Coba cari makanan lainnya.
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <!-- FLOATING CART -->
+
+    <a
+        href="keranjang.html"
+        class="cart-float"
+    >
+
+        🛒
+
+        <span
+            class="cart-count"
+            id="cartCount"
+        >
+            0
+        </span>
+
+    </a>
+
+
+    <!-- BOTTOM NAV -->
+
+    <nav class="bottom-nav">
+
+        <a
+            href="makanan.html"
+            class="nav-item active"
+        >
+            <span>🏠</span>
+            Beranda
+        </a>
+
+
+        <a
+            href="keranjang.html"
+            class="nav-item"
+        >
+
+            <span>🛒</span>
+
+            <span
+                class="nav-badge"
+                id="navBadge"
+            >
+                0
+            </span>
+
+            Pesanan
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-item"
+            onclick="showFavorites(event)"
+        >
+
+            <span>❤️</span>
+
+            Favorit
+
+        </a>
+
+
+        <a
+            href="profil.html"
+            class="nav-item"
+        >
+
+            <span>👤</span>
+
+            Profil
+
+        </a>
+
+    </nav>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast"
+    >
+        Berhasil!
+    </div>
+
+
+    <script>
+
+        /* =================================================
+           DATA MAKANAN
+        ================================================= */
+
+        const daftarMakanan = {
+
+            "Mie Ayam Spesial": {
+                harga: 10000,
+                emoji: "🍜"
+            },
+
+            "Ayam Geprek": {
+                harga: 12000,
+                emoji: "🍗"
+            },
+
+            "Nasi Goreng Spesial": {
+                harga: 13000,
+                emoji: "🍳"
+            },
+
+            "Beef Cheese Burger": {
+                harga: 18000,
+                emoji: "🍔"
+            },
+
+            "Pizza Cheese": {
+                harga: 22000,
+                emoji: "🍕"
+            },
+
+            "Kentang Goreng": {
+                harga: 9000,
+                emoji: "🍟"
+            },
+
+            "Es Teh Manis": {
+                harga: 5000,
+                emoji: "🥤"
+            },
+
+            "Brown Sugar Boba": {
+                harga: 15000,
+                emoji: "🧋"
+            },
+
+            "Chocolate Cake": {
+                harga: 14000,
+                emoji: "🍰"
+            },
+
+            "Nasi Ayam Bakar": {
+                harga: 16000,
+                emoji: "🍗"
+            },
+
+            "Mie Goreng Jawa": {
+                harga: 11000,
+                emoji: "🍝"
+            }
+
+        };
+
+
+        /* =================================================
+           CART
+        ================================================= */
+
+        let cartCount = 0;
+
+
+        function getPesanan() {
+            const data = JSON.parse(
+                localStorage.getItem("pesanan")
+            );
+
+            if (Array.isArray(data)) {
+                return data[0] || null;
+            }
+
+            return data;
+
+        }
+
+
+        function addCart(foodName) {
+
+            const makanan =
+                daftarMakanan[foodName];
+
+
+            if (!makanan) {
+
+                alert("Makanan tidak ditemukan!");
+
+                return;
+            }
+
+
+            let pesanan = getPesanan();
+
+
+            if (pesanan && pesanan.nama === foodName) {
+
+                pesanan.jumlah++;
+
+                pesanan.total =
+                    pesanan.harga *
+                    pesanan.jumlah;
+
+            } else {
+
+                pesanan = {
+
+                    nama: foodName,
+
+                    harga: makanan.harga,
+
+                    jumlah: 1,
+
+                    catatan: "",
+
+                    total: makanan.harga,
+
+                    emoji: makanan.emoji
+
+                };
+
+            }
+
+
+            localStorage.setItem(
+                "pesanan",
+                JSON.stringify(pesanan)
+            );
+
+
+            updateCartCount();
+
+
+            showToast(
+                "✅ " +
+                foodName +
+                " masuk ke keranjang!"
+            );
+
+        }
+
+
+        function updateCartCount() {
+
+            const pesanan =
+                getPesanan();
+
+
+            cartCount =
+                Number(pesanan?.jumlah || 0);
+
+
+            localStorage.setItem(
+                "foodgo_cart_count",
+                cartCount
+            );
+
+
+            document
+                .getElementById("cartCount")
+                .textContent = cartCount;
+
+
+            const badge =
+                document.getElementById(
+                    "navBadge"
+                );
+
+
+            badge.textContent =
+                cartCount;
+
+
+            badge.style.display =
+                cartCount > 0
+                    ? "flex"
+                    : "none";
+
+        }
+
+
+        /* =================================================
+           FAVORITE
+        ================================================= */
+
+        let favorites =
+            JSON.parse(
+                localStorage.getItem(
+                    "foodgo_favorites"
+                )
+            ) || [];
+
+
+        function favorite(button, event) {
+
+            event.stopPropagation();
+
+
+            const card =
+                button.closest(".food-card");
+
+
+            const foodName =
+                card
+                    .querySelector("h4")
+                    .innerText;
+
+
+            if (
+                favorites.includes(foodName)
+            ) {
+
+                favorites =
+                    favorites.filter(
+                        item =>
+                            item !== foodName
+                    );
+
+
+                button.classList.remove(
+                    "active"
+                );
+
+
+                button.textContent =
+                    "♡";
+
+
+                showToast(
+                    "💔 Dihapus dari favorit"
+                );
+
+            } else {
+
+                favorites.push(
+                    foodName
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                button.textContent =
+                    "♥";
+
+
+                showToast(
+                    "❤️ Ditambahkan ke favorit"
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "foodgo_favorites",
+                JSON.stringify(favorites)
+            );
+
+        }
+
+
+        function loadFavorites() {
+
+            document
+                .querySelectorAll(".food-card")
+                .forEach(card => {
+
+                    const foodName =
+                        card
+                            .querySelector("h4")
+                            .innerText;
+
+
+                    const button =
+                        card
+                            .querySelector(
+                                ".favorite"
+                            );
+
+
+                    if (
+                        favorites.includes(
+                            foodName
+                        )
+                    ) {
+
+                        button.classList.add(
+                            "active"
+                        );
+
+                        button.textContent =
+                            "♥";
+
+                    }
+
+                });
+
+        }
+
+
+        /* =================================================
+           TAMPILKAN FAVORIT
+        ================================================= */
+
+        function showFavorites(event) {
+
+            event.preventDefault();
+
+
+            document
+                .querySelectorAll(".category")
+                .forEach(item => {
+
+                    item.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+            document
+                .querySelectorAll(".food-card")
+                .forEach(card => {
+
+                    const foodName =
+                        card
+                            .querySelector("h4")
+                            .innerText;
+
+
+                    if (
+                        favorites.includes(
+                            foodName
+                        )
+                    ) {
+
+                        card.style.display =
+                            "";
+
+                    } else {
+
+                        card.style.display =
+                            "none";
+
+                    }
+
+                });
+
+
+            const jumlahFavorit =
+                favorites.length;
+
+
+            const empty =
+                document.getElementById(
+                    "empty"
+                );
+
+
+            if (
+                jumlahFavorit === 0
+            ) {
+
+                empty.style.display =
+                    "block";
+
+
+                document.getElementById(
+                    "emptyIcon"
+                ).textContent = "❤️";
+
+
+                document.getElementById(
+                    "emptyTitle"
+                ).textContent =
+                    "Belum ada favorit";
+
+
+                document.getElementById(
+                    "emptyText"
+                ).textContent =
+                    "Klik ❤️ pada makanan yang kamu suka.";
+
+            } else {
+
+                empty.style.display =
+                    "none";
+
+            }
+
+
+            document
+                .getElementById("menu")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+        /* =================================================
+           SEARCH
+        ================================================= */
+
+        function searchFood() {
+
+            const keyword =
+                document
+                    .getElementById(
+                        "searchInput"
+                    )
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            const cards =
+                document.querySelectorAll(
+                    ".food-card"
+                );
+
+
+            let found = 0;
+
+
+            cards.forEach(card => {
+
+                const name =
+                    card.dataset.name
+                        .toLowerCase();
+
+
+                if (
+                    name.includes(
+                        keyword
+                    )
+                ) {
+
+                    card.style.display =
+                        "";
+
+                    found++;
+
+                } else {
+
+                    card.style.display =
+                        "none";
+
+                }
+
+            });
+
+
+            const empty =
+                document.getElementById(
+                    "empty"
+                );
+
+
+            if (found === 0) {
+
+                empty.style.display =
+                    "block";
+
+            } else {
+
+                empty.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =================================================
+           CATEGORY
+        ================================================= */
+
+        function filterCategory(
+            category,
+            element
+        ) {
+
+            document
+                .querySelectorAll(
+                    ".category"
+                )
+                .forEach(item => {
+
+                    item.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+            element.classList.add(
+                "active"
+            );
+
+
+            const cards =
+                document.querySelectorAll(
+                    ".food-card"
+                );
+
+
+            let found = 0;
+
+
+            cards.forEach(card => {
+
+                if (
+                    category === "all" ||
+                    card.dataset.category ===
+                        category
+                ) {
+
+                    card.style.display =
+                        "";
+
+                    found++;
+
+                } else {
+
+                    card.style.display =
+                        "none";
+
+                }
+
+            });
+
+
+            document.getElementById(
+                "searchInput"
+            ).value = "";
+
+
+            document.getElementById(
+                "empty"
+            ).style.display =
+                found === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+
+        /* =================================================
+           SHOW ALL
+        ================================================= */
+
+        function showAll(event) {
+
+            event.preventDefault();
+
+
+            document
+                .querySelectorAll(
+                    ".category"
+                )
+                .forEach(item => {
+
+                    item.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+            document
+                .querySelector(
+                    ".category"
+                )
+                .classList.add(
+                    "active"
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".food-card"
+                )
+                .forEach(card => {
+
+                    card.style.display =
+                        "";
+
+                });
+
+
+            document.getElementById(
+                "searchInput"
+            ).value = "";
+
+
+            document.getElementById(
+                "empty"
+            ).style.display =
+                "none";
+
+
+            document
+                .getElementById("menu")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+        /* =================================================
+           TOAST
+        ================================================= */
+
+        function showToast(message) {
+
+            const toast =
+                document.getElementById(
+                    "toast"
+                );
+
+
+            toast.textContent =
+                message;
+
+
+            toast.classList.add(
+                "show"
+            );
+
+
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            }, 1800);
+
+        }
+
+
+        /* =================================================
+           JALANKAN SAAT HALAMAN DIBUKA
+        ================================================= */
+
+        updateCartCount();
+
+        loadFavorites();
+
+    </script>
+
+</body>
+</html>

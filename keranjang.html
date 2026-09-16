@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Keranjang - FoodGo</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --orange: #ff6333;
+            --orange-dark: #f45124;
+            --orange-light: #fff0e9;
+            --green: #20a464;
+            --red: #ef4444;
+            --text: #292929;
+            --gray: #888;
+            --bg: #f7f7f7;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 40px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 20px;
+
+            background: rgba(255,255,255,.97);
+
+            border-bottom: 1px solid #eee;
+
+            box-shadow: 0 3px 15px rgba(0,0,0,.06);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f5f5f5;
+
+            border-radius: 50%;
+
+            color: #333;
+            text-decoration: none;
+
+            font-size: 23px;
+
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .logo {
+            color: var(--orange);
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .home-btn {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--orange-light);
+
+            border-radius: 50%;
+
+            text-decoration: none;
+
+            font-size: 19px;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+
+            margin: auto;
+
+            padding: 22px 20px;
+        }
+
+        .title {
+            font-size: 28px;
+
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: var(--gray);
+
+            font-size: 13px;
+
+            margin-bottom: 22px;
+        }
+
+        /* ================= CART ITEM ================= */
+
+        .cart-item {
+            position: relative;
+
+            display: flex;
+
+            gap: 14px;
+
+            padding: 15px;
+
+            margin-bottom: 15px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+        }
+
+        .food-image {
+            width: 92px;
+            height: 92px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff2eb,
+                    #ffe1d3
+                );
+
+            border-radius: 14px;
+
+            font-size: 48px;
+        }
+
+        .food-info {
+            flex: 1;
+
+            min-width: 0;
+        }
+
+        .food-name {
+            font-size: 17px;
+
+            margin-bottom: 5px;
+
+            padding-right: 25px;
+        }
+
+        .price {
+            color: var(--orange);
+
+            font-size: 14px;
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+        .detail-text {
+            color: #888;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+            margin-bottom: 8px;
+        }
+
+        /* ================= DELETE ================= */
+
+        .delete-btn {
+            position: absolute;
+
+            top: 12px;
+            right: 12px;
+
+            width: 30px;
+            height: 30px;
+
+            border: none;
+
+            background: #fff1f1;
+
+            border-radius: 8px;
+
+            color: var(--red);
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            transition: .2s;
+        }
+
+        .delete-btn:hover {
+            background: var(--red);
+            color: white;
+        }
+
+        /* ================= QUANTITY ================= */
+
+        .bottom-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .quantity button {
+            width: 28px;
+            height: 28px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: var(--orange-light);
+
+            color: var(--orange);
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .quantity button:hover {
+            background: var(--orange);
+            color: white;
+        }
+
+        .quantity span {
+            min-width: 20px;
+
+            text-align: center;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .item-total {
+            color: #333;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ================= PROMO ================= */
+
+        .promo-box {
+            display: flex;
+
+            gap: 9px;
+
+            padding: 15px;
+
+            margin: 20px 0;
+
+            background: white;
+
+            border-radius: 16px;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,.04);
+        }
+
+        .promo-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            background: #fff5d9;
+
+            border-radius: 10px;
+
+            font-size: 19px;
+        }
+
+        .promo-input {
+            flex: 1;
+
+            min-width: 0;
+
+            border: 1px solid #e5e5e5;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            padding: 10px;
+
+            font-size: 12px;
+        }
+
+        .promo-input:focus {
+            border-color: var(--orange);
+        }
+
+        .promo-btn {
+            padding: 0 13px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: var(--orange);
+
+            color: white;
+
+            font-weight: bold;
+
+            font-size: 11px;
+
+            cursor: pointer;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary {
+            padding: 20px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+        }
+
+        .summary h3 {
+            font-size: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 13px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        .discount-row {
+            color: var(--green);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+
+            padding-top: 15px;
+
+            margin-top: 7px;
+
+            border-top: 1px dashed #ddd;
+
+            color: #333;
+
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .total-price {
+            color: var(--orange);
+
+            font-size: 21px;
+        }
+
+        /* ================= CHECKOUT ================= */
+
+        .checkout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            padding: 15px;
+
+            margin-top: 18px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7947,
+                    #ff572d
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            box-shadow:
+                0 8px 20px rgba(255,91,45,.25);
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 11px 25px rgba(255,91,45,.32);
+        }
+
+        /* ================= SECURITY ================= */
+
+        .secure {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 6px;
+
+            margin-top: 15px;
+
+            color: #999;
+
+            font-size: 10px;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            display: none;
+
+            text-align: center;
+
+            padding: 55px 20px;
+        }
+
+        .empty-icon {
+            width: 100px;
+            height: 100px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 20px;
+
+            background: var(--orange-light);
+
+            border-radius: 50%;
+
+            font-size: 52px;
+        }
+
+        .empty h2 {
+            font-size: 21px;
+
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #888;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 22px;
+        }
+
+        .menu-btn {
+            display: inline-block;
+
+            padding: 13px 22px;
+
+            border-radius: 11px;
+
+            background: var(--orange);
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ================= NOTIFICATION ================= */
+
+        .notification {
+            position: fixed;
+
+            top: 82px;
+            left: 50%;
+
+            z-index: 100;
+
+            transform:
+                translate(-50%, -20px);
+
+            padding: 12px 18px;
+
+            min-width: 230px;
+
+            background: #222;
+
+            color: white;
+
+            border-radius: 11px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition: .3s;
+        }
+
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 430px) {
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .title {
+                font-size: 25px;
+            }
+
+            .food-image {
+                width: 80px;
+                height: 80px;
+
+                font-size: 40px;
+            }
+
+            .promo-box {
+                gap: 7px;
+            }
+
+            .promo-btn {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NOTIFICATION -->
+
+    <div
+        class="notification"
+        id="notification"
+    >
+        ✅ Pesanan diperbarui
+    </div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <a
+                href="makanan.html"
+                class="back-btn"
+            >
+                ←
+            </a>
+
+            <div class="logo">
+                🍴 FoodGo
+            </div>
+
+        </div>
+
+        <a
+            href="makanan.html"
+            class="home-btn"
+        >
+            🏠
+        </a>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <main class="container">
+
+        <div id="cartContent">
+
+            <h1 class="title">
+                🛒 Keranjang
+            </h1>
+
+            <p class="subtitle">
+                Periksa kembali pesananmu sebelum checkout
+            </p>
+
+
+            <!-- CART ITEM -->
+
+            <div class="cart-item">
+
+                <div class="food-image">
+                    🍜
+                </div>
+
+
+                <div class="food-info">
+
+                    <h2
+                        class="food-name"
+                        id="namaMakanan"
+                    >
+                        Mie Ayam Spesial
+                    </h2>
+
+                    <p
+                        class="price"
+                        id="hargaMakanan"
+                    >
+                        Rp10.000
+                    </p>
+
+                    <p
+                        class="detail-text"
+                        id="detailPesanan"
+                    >
+                        🌶️ Tidak Pedas<br>
+                        📝 Catatan: -
+                    </p>
+
+
+                    <div class="bottom-item">
+
+                        <div class="quantity">
+
+                            <button
+                                onclick="kurang()"
+                            >
+                                −
+                            </button>
+
+                            <span id="jumlahMakanan">
+                                1
+                            </span>
+
+                            <button
+                                onclick="tambah()"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+
+                        <span
+                            class="item-total"
+                            id="itemTotal"
+                        >
+                            Rp10.000
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="hapusPesanan()"
+                    title="Hapus pesanan"
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+
+            <!-- PROMO -->
+
+            <div class="promo-box">
+
+                <div class="promo-icon">
+                    🎟️
+                </div>
+
+                <input
+                    type="text"
+                    id="kodePromo"
+                    class="promo-input"
+                    placeholder="Masukkan kode promo"
+                >
+
+                <button
+                    class="promo-btn"
+                    onclick="gunakanPromo()"
+                >
+                    Gunakan
+                </button>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary">
+
+                <h3>
+                    💳 Ringkasan Pembayaran
+                </h3>
+
+
+                <div class="row">
+
+                    <span>
+                        Harga makanan
+                    </span>
+
+                    <span id="subtotal">
+                        Rp10.000
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span>
+                        Biaya layanan
+                    </span>
+
+                    <span id="layanan">
+                        Rp1.000
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span>
+                        Ongkir
+                    </span>
+
+                    <span id="ongkir">
+                        Rp5.000
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="row discount-row"
+                    id="discountRow"
+                    style="display:none;"
+                >
+
+                    <span>
+                        Diskon promo
+                    </span>
+
+                    <span id="diskon">
+                        -Rp0
+                    </span>
+
+                </div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Total Pembayaran
+                    </span>
+
+                    <span
+                        class="total-price"
+                        id="total"
+                    >
+                        Rp16.000
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="chackout.html"
+                    class="checkout-btn"
+                    onclick="simpanTotal()"
+                >
+                    Lanjut ke Checkout →
+                </a>
+
+
+                <div class="secure">
+                    🔒 Pembayaran aman & terpercaya
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMPTY CART -->
+
+        <div
+            class="empty"
+            id="emptyCart"
+        >
+
+            <div class="empty-icon">
+                🛒
+            </div>
+
+            <h2>
+                Keranjang Masih Kosong
+            </h2>
+
+            <p>
+                Belum ada makanan yang kamu pesan.
+                Yuk pilih makanan favoritmu sekarang!
+            </p>
+
+            <a
+                href="makanan.html"
+                class="menu-btn"
+            >
+                🍴 Lihat Menu
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* ================= DATA ================= */
+
+        let pesanan =
+            JSON.parse(
+                localStorage.getItem("pesanan")
+            );
+
+
+        let biayaLayanan = 1000;
+
+        let ongkir = 5000;
+
+        let diskon = 0;
+
+
+        /* ================= FORMAT RUPIAH ================= */
+
+        function rupiah(angka) {
+
+            return "Rp" +
+                Number(angka)
+                    .toLocaleString("id-ID");
+
+        }
+
+
+        /* ================= LOAD ================= */
+
+        function loadCart() {
+
+            if (!pesanan) {
+
+                document
+                    .getElementById("cartContent")
+                    .style.display = "none";
+
+                document
+                    .getElementById("emptyCart")
+                    .style.display = "block";
+
+                return;
+            }
+
+
+            document
+                .getElementById("namaMakanan")
+                .innerText =
+                pesanan.nama || "Mie Ayam Spesial";
+
+
+            document
+                .getElementById("hargaMakanan")
+                .innerText =
+                rupiah(pesanan.harga);
+
+
+            document
+                .getElementById("jumlahMakanan")
+                .innerText =
+                pesanan.jumlah;
+
+
+            document
+                .getElementById("itemTotal")
+                .innerText =
+                rupiah(
+                    pesanan.harga *
+                    pesanan.jumlah
+                );
+
+
+            let level =
+                pesanan.levelPedas ||
+                "Tidak Pedas";
+
+
+            let catatan =
+                pesanan.catatan ||
+                "-";
+
+
+            document
+                .getElementById("detailPesanan")
+                .innerHTML =
+                "🌶️ " + level +
+                "<br>📝 Catatan: " +
+                catatan;
+
+
+            updateTotal();
+        }
+
+
+        /* ================= UPDATE TOTAL ================= */
+
+        function updateTotal() {
+
+            if (!pesanan) return;
+
+
+            const subtotal =
+                pesanan.harga *
+                pesanan.jumlah;
+
+
+            const total =
+                subtotal +
+                biayaLayanan +
+                ongkir -
+                diskon;
+
+
+            document
+                .getElementById("subtotal")
+                .innerText =
+                rupiah(subtotal);
+
+
+            document
+                .getElementById("itemTotal")
+                .innerText =
+                rupiah(subtotal);
+
+
+            document
+                .getElementById("total")
+                .innerText =
+                rupiah(
+                    Math.max(total, 0)
+                );
+
+
+            if (diskon > 0) {
+
+                document
+                    .getElementById("discountRow")
+                    .style.display = "flex";
+
+                document
+                    .getElementById("diskon")
+                    .innerText =
+                    "-" + rupiah(diskon);
+
+            }
+
+        }
+
+
+        /* ================= TAMBAH ================= */
+
+        function tambah() {
+
+            if (!pesanan) return;
+
+
+            pesanan.jumlah++;
+
+
+            pesanan.total =
+                pesanan.harga *
+                pesanan.jumlah;
+
+
+            localStorage.setItem(
+                "pesanan",
+                JSON.stringify(pesanan)
+            );
+
+
+            loadCart();
+
+            tampilNotifikasi(
+                "✅ Jumlah pesanan ditambah"
+            );
+        }
+
+
+        /* ================= KURANG ================= */
+
+        function kurang() {
+
+            if (!pesanan) return;
+
+
+            if (pesanan.jumlah > 1) {
+
+                pesanan.jumlah--;
+
+
+                pesanan.total =
+                    pesanan.harga *
+                    pesanan.jumlah;
+
+
+                localStorage.setItem(
+                    "pesanan",
+                    JSON.stringify(pesanan)
+                );
+
+
+                loadCart();
+
+                tampilNotifikasi(
+                    "✅ Jumlah pesanan dikurangi"
+                );
+            }
+
+        }
+
+
+        /* ================= PROMO ================= */
+
+        function gunakanPromo() {
+
+            const kode =
+                document
+                    .getElementById("kodePromo")
+                    .value
+                    .trim()
+                    .toUpperCase();
+
+
+            if (kode === "FOODGO10") {
+
+                const subtotal =
+                    pesanan.harga *
+                    pesanan.jumlah;
+
+
+                diskon =
+                    Math.round(
+                        subtotal * 0.10
+                    );
+
+
+                updateTotal();
+
+
+                tampilNotifikasi(
+                    "🎉 Promo FOODGO10 berhasil!"
+                );
+
+            } else {
+
+                diskon = 0;
+
+                updateTotal();
+
+
+                if (kode !== "") {
+
+                    tampilNotifikasi(
+                        "❌ Kode promo tidak ditemukan"
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        /* ================= HAPUS ================= */
+
+        function hapusPesanan() {
+
+            const yakin =
+                confirm(
+                    "Hapus makanan dari keranjang?"
+                );
+
+
+            if (!yakin) return;
+
+
+            localStorage.removeItem(
+                "pesanan"
+            );
+
+
+            localStorage.removeItem(
+                "foodgo_cart_count"
+            );
+
+
+            pesanan = null;
+
+
+            document
+                .getElementById("cartContent")
+                .style.display = "none";
+
+
+            document
+                .getElementById("emptyCart")
+                .style.display = "block";
+
+        }
+
+
+        /* ================= SAVE TOTAL ================= */
+
+        function simpanTotal() {
+
+            if (!pesanan) return;
+
+
+            const subtotal =
+                pesanan.harga *
+                pesanan.jumlah;
+
+
+            const total =
+                Math.max(
+                    subtotal +
+                    biayaLayanan +
+                    ongkir -
+                    diskon,
+                    0
+                );
+
+
+            localStorage.setItem(
+                "foodgo_checkout",
+                JSON.stringify({
+
+                    subtotal: subtotal,
+
+                    layanan: biayaLayanan,
+
+                    ongkir: ongkir,
+
+                    diskon: diskon,
+
+                    total: total
+
+                })
+            );
+
+        }
+
+
+        /* ================= NOTIFICATION ================= */
+
+        function tampilNotifikasi(pesan) {
+
+            const notification =
+                document.getElementById(
+                    "notification"
+                );
+
+
+            notification.innerText =
+                pesan;
+
+
+            notification.classList.add(
+                "show"
+            );
+
+
+            setTimeout(function() {
+
+                notification.classList.remove(
+                    "show"
+                );
+
+            }, 1200);
+
+        }
+
+
+        /* ================= START ================= */
+
+        loadCart();
+
+    </script>
+
+</body>
+</html>

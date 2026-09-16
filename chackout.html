@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout - FoodGo</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --orange: #ff6333;
+            --orange-light: #fff0e9;
+            --orange-dark: #f45124;
+            --green: #20a464;
+            --text: #292929;
+            --gray: #888;
+            --bg: #f7f7f7;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 35px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 0 20px;
+
+            background: white;
+
+            border-bottom: 1px solid #eee;
+
+            box-shadow:
+                0 3px 15px rgba(0,0,0,.06);
+        }
+
+        .back {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f5f5f5;
+
+            border-radius: 50%;
+
+            color: #333;
+
+            text-decoration: none;
+
+            font-size: 23px;
+
+            transition: .2s;
+        }
+
+        .back:hover {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .header h2 {
+            font-size: 20px;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+
+            margin: auto;
+
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 27px;
+
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #888;
+
+            font-size: 13px;
+
+            margin-bottom: 22px;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+
+            padding: 19px;
+
+            border-radius: 18px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,.05);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 18px;
+
+            font-size: 17px;
+        }
+
+        .card-title-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--orange-light);
+
+            border-radius: 9px;
+
+            font-size: 17px;
+        }
+
+        /* ================= ORDER ================= */
+
+        .order-main {
+            display: flex;
+
+            gap: 12px;
+
+            padding-bottom: 15px;
+
+            margin-bottom: 15px;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .food-icon {
+            width: 65px;
+            height: 65px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #fff2eb,
+                #ffe0d2
+            );
+
+            border-radius: 13px;
+
+            font-size: 35px;
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-name {
+            font-size: 16px;
+
+            margin-bottom: 5px;
+        }
+
+        .order-detail {
+            color: #888;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        .order-price {
+            color: var(--orange);
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 12px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        .discount {
+            color: var(--green);
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+
+            padding-top: 15px;
+
+            margin-top: 7px;
+
+            border-top: 1px dashed #ddd;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+        .total-price {
+            color: var(--orange);
+
+            font-size: 21px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1.5px solid #e5e5e5;
+
+            border-radius: 11px;
+
+            background: #fafafa;
+
+            outline: none;
+
+            color: #333;
+
+            font-size: 13px;
+
+            transition: .2s;
+        }
+
+        .input-icon + input {
+            padding-left: 41px;
+        }
+
+        textarea {
+            height: 75px;
+
+            resize: none;
+
+            line-height: 1.5;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--orange);
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(255,99,51,.08);
+        }
+
+        /* ================= PAYMENT ================= */
+
+        .payment-options {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+        }
+
+        .payment-option {
+            position: relative;
+
+            padding: 14px;
+
+            border: 1.5px solid #e5e5e5;
+
+            border-radius: 13px;
+
+            background: white;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .payment-option input {
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+        .payment-option.selected {
+            border-color: var(--orange);
+
+            background: var(--orange-light);
+        }
+
+        .payment-icon {
+            font-size: 23px;
+
+            margin-bottom: 7px;
+        }
+
+        .payment-name {
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 3px;
+        }
+
+        .payment-desc {
+            color: #999;
+
+            font-size: 10px;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .checkout-btn {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7947,
+                    #ff572d
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px rgba(255,91,45,.25);
+
+            transition: .2s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 11px 25px rgba(255,91,45,.32);
+        }
+
+        .checkout-btn:active {
+            transform: scale(.98);
+        }
+
+        .secure {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 5px;
+
+            margin-top: 12px;
+
+            color: #999;
+
+            font-size: 10px;
+        }
+
+        /* ================= ERROR ================= */
+
+        .error {
+            display: none;
+
+            padding: 11px;
+
+            margin-bottom: 14px;
+
+            background: #fff1f1;
+
+            border: 1px solid #ffd3d3;
+
+            border-radius: 10px;
+
+            color: #d33;
+
+            font-size: 12px;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            display: none;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 65px;
+
+            margin-bottom: 15px;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #888;
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+        }
+
+        .menu-btn {
+            display: inline-block;
+
+            padding: 12px 20px;
+
+            background: var(--orange);
+
+            color: white;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 430px) {
+
+            .container {
+                padding: 18px 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <a
+            href="keranjang.html"
+            class="back"
+        >
+            ←
+        </a>
+
+        <h2>
+            Checkout
+        </h2>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <main class="container">
+
+        <div id="checkoutContent">
+
+            <h1 class="page-title">
+                🧾 Checkout
+            </h1>
+
+            <p class="page-subtitle">
+                Lengkapi data sebelum membuat pesanan
+            </p>
+
+
+            <!-- ORDER SUMMARY -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div class="card-title-icon">
+                        📦
+                    </div>
+
+                    <span>
+                        Ringkasan Pesanan
+                    </span>
+
+                </div>
+
+
+                <div class="order-main">
+
+                    <div class="food-icon">
+                        🍜
+                    </div>
+
+                    <div class="order-info">
+
+                        <h3
+                            class="order-name"
+                            id="namaMakanan"
+                        >
+                            Mie Ayam Spesial
+                        </h3>
+
+                        <p
+                            class="order-detail"
+                            id="detailMakanan"
+                        >
+                            1x • Tidak Pedas
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="order-price"
+                        id="hargaMakanan"
+                    >
+                        Rp10.000
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span id="subtotal">
+                        Rp10.000
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span>
+                        Biaya layanan
+                    </span>
+
+                    <span id="layanan">
+                        Rp1.000
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span>
+                        Ongkir
+                    </span>
+
+                    <span id="ongkir">
+                        Rp5.000
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="row discount"
+                    id="discountRow"
+                    style="display:none;"
+                >
+
+                    <span>
+                        Diskon
+                    </span>
+
+                    <span id="diskon">
+                        -Rp0
+                    </span>
+
+                </div>
+
+
+                <div class="total">
+
+                    <span>
+                        Total Pembayaran
+                    </span>
+
+                    <span
+                        class="total-price"
+                        id="totalHarga"
+                    >
+                        Rp16.000
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CUSTOMER -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div class="card-title-icon">
+                        👤
+                    </div>
+
+                    <span>
+                        Data Pemesan
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="error"
+                    id="errorBox"
+                >
+                    Mohon lengkapi semua data terlebih dahulu.
+                </div>
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="nama">
+                        Nama
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            👤
+                        </span>
+
+                        <input
+                            type="text"
+                            id="nama"
+                            placeholder="Masukkan nama kamu"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- CLASS -->
+
+                <div class="form-group">
+
+                    <label for="kelas">
+                        Kelas
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🎓
+                        </span>
+
+                        <input
+                            type="text"
+                            id="kelas"
+                            placeholder="Contoh: XI RPL 1"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="alamat">
+                        Alamat / Lokasi Pengantaran
+                    </label>
+
+                    <textarea
+                        id="alamat"
+                        placeholder="Contoh: Kantin sekolah, kelas XI RPL 1..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div class="card-title-icon">
+                        💳
+                    </div>
+
+                    <span>
+                        Metode Pembayaran
+                    </span>
+
+                </div>
+
+
+                <div class="payment-options">
+
+                    <label
+                        class="payment-option"
+                        id="cashOption"
+                        onclick="pilihPembayaran('Cash')"
+                    >
+
+                        <input
+                            type="radio"
+                            name="pembayaran"
+                            value="Cash"
+                        >
+
+                        <div class="payment-icon">
+                            💵
+                        </div>
+
+                        <div class="payment-name">
+                            Cash
+                        </div>
+
+                        <div class="payment-desc">
+                            Bayar saat menerima
+                        </div>
+
+                    </label>
+
+
+                    <label
+                        class="payment-option"
+                        id="qrisOption"
+                        onclick="pilihPembayaran('QRIS')"
+                    >
+
+                        <input
+                            type="radio"
+                            name="pembayaran"
+                            value="QRIS"
+                        >
+
+                        <div class="payment-icon">
+                            📱
+                        </div>
+
+                        <div class="payment-name">
+                            QRIS
+                        </div>
+
+                        <div class="payment-desc">
+                            Pembayaran digital
+                        </div>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                class="checkout-btn"
+                onclick="buatPesanan()"
+            >
+                🍴 Buat Pesanan Sekarang
+            </button>
+
+
+            <div class="secure">
+                🔒 Data kamu aman &nbsp;•&nbsp; Pembayaran terpercaya
+            </div>
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="empty"
+            id="emptyCheckout"
+        >
+
+            <div class="empty-icon">
+                🛒
+            </div>
+
+            <h2>
+                Tidak Ada Pesanan
+            </h2>
+
+            <p>
+                Silakan pilih makanan terlebih dahulu.
+            </p>
+
+            <a
+                href="makanan.html"
+                class="menu-btn"
+            >
+                🍴 Lihat Menu
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const pesanan = JSON.parse(localStorage.getItem("pesanan"));
+        const checkoutData = JSON.parse(localStorage.getItem("foodgo_checkout"));
+        let pembayaranDipilih = "";
+
+        function rupiah(angka) {
+            return "Rp" + Number(angka || 0).toLocaleString("id-ID");
+        }
+
+        function pilihPembayaran(metode) {
+            pembayaranDipilih = metode;
+            document.getElementById("cashOption").classList.toggle("selected", metode === "Cash");
+            document.getElementById("qrisOption").classList.toggle("selected", metode === "QRIS");
+            document.querySelector(`input[value="${metode}"]`).checked = true;
+        }
+
+        function tampilkanPesanan() {
+            if (!pesanan) {
+                document.getElementById("checkoutContent").style.display = "none";
+                document.getElementById("emptyCheckout").style.display = "block";
+                return;
+            }
+
+            const subtotal = checkoutData?.subtotal || pesanan.harga * pesanan.jumlah;
+            const layanan = checkoutData?.layanan || 1000;
+            const ongkir = checkoutData?.ongkir || 5000;
+            const diskon = checkoutData?.diskon || 0;
+            const total = checkoutData?.total ?? subtotal + layanan + ongkir - diskon;
+
+            document.getElementById("namaMakanan").innerText = pesanan.nama || "Mie Ayam Spesial";
+            document.getElementById("detailMakanan").innerText = `${pesanan.jumlah || 1}x • ${pesanan.levelPedas || "Tidak Pedas"}`;
+            document.getElementById("hargaMakanan").innerText = rupiah(pesanan.harga);
+            document.getElementById("subtotal").innerText = rupiah(subtotal);
+            document.getElementById("layanan").innerText = rupiah(layanan);
+            document.getElementById("ongkir").innerText = rupiah(ongkir);
+            document.getElementById("totalHarga").innerText = rupiah(total);
+
+            if (diskon > 0) {
+                document.getElementById("discountRow").style.display = "flex";
+                document.getElementById("diskon").innerText = "-" + rupiah(diskon);
+            }
+        }
+
+        function buatPesanan() {
+            const nama = document.getElementById("nama").value.trim();
+            const kelas = document.getElementById("kelas").value.trim();
+            const alamat = document.getElementById("alamat").value.trim();
+            const errorBox = document.getElementById("errorBox");
+
+            if (!nama || !kelas || !alamat || !pembayaranDipilih) {
+                errorBox.style.display = "block";
+                return;
+            }
+
+            errorBox.style.display = "none";
+            localStorage.setItem("namaPemesan", nama);
+            localStorage.setItem("kelasPemesan", kelas);
+            localStorage.setItem("alamatPemesan", alamat);
+            localStorage.setItem("pembayaran", pembayaranDipilih);
+            localStorage.removeItem("pesanan");
+            localStorage.removeItem("foodgo_cart_count");
+            window.location.href = "berhasil.html";
+        }
+
+        tampilkanPesanan();
+
+    </script>
+
+</body>
+</html>
